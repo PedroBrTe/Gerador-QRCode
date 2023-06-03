@@ -1,7 +1,8 @@
 # Gerador de QRCode
 
-## Bugs
-* QRcode com imagem ainda não funciona
+## Sobre
+Gerador de QRCode com ou sem imagem feito com ttkbootstrap
+![Foto](imgs/ss.png)
 
 ##  Pré-requisitos
 * python 3.11.x
