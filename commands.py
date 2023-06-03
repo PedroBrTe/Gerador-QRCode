@@ -19,23 +19,32 @@ def selecionar_arquivo():
 def criar_qrcode(link: str):
     nome_arquivo = link.replace(' ', '_')
     try:
-        qr = qrcode.QRCode(
-            error_correction=qrcode.constants.ERROR_CORRECT_H)
-        qr.add_data(link)
-        qrcode_image = qr.make_image(fill_color='black', back_color='white')
-
         logo = Image.open(caminho_arquivo)
-        logo = logo.resize((80, 80))
-        largura_imagem, altura_imagem = logo.size
-        largura_qr, altura_qr = qrcode_image.size
-        posicao_x = int((largura_qr - largura_imagem) / 2)
-        posicao_y = int((altura_qr - altura_imagem) / 2)
+        largura = 100
 
-        qrcode_image.paste(logo, (posicao_x, posicao_y))
-        arquivo = f"{nome_arquivo}.png"
-        qrcode_image.save(arquivo)
-        img = Image.open(arquivo)
-        img.show()
+        lporcent = (largura/float(logo.size[0]))
+        altura = int((float(logo.size[1])*float(lporcent)))
+
+        logo = logo.resize((largura, altura), Image.ANTIALIAS)
+        qr = qrcode.QRCode(
+            error_correction=qrcode.constants.ERROR_CORRECT_H
+        )
+
+        qr.add_data(link)
+        qr.make()
+
+        qrcode_image = qr.make_image(fill_color='black', back_color='white').convert('RGB')
+        pos = ((qrcode_image.size[0] - logo.size[0]) // 2,
+               (qrcode_image.size[1] - logo.size[1]) // 2)
+
+        qrcode_image.paste(logo, pos)
+        resposta = askyesno(title='Confirmação', message='Certeza que deseja criar o qrcode?')
+        if resposta:
+            arquivo = f"{nome_arquivo}.png"
+            qrcode_image.save(arquivo)
+            img = Image.open(arquivo)
+            img.show()
+
     except:
         print(link)
         qr = qrcode.QRCode(version=1, box_size=6, border=4)
