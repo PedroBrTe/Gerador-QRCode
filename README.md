@@ -12,3 +12,5 @@ Gerador de QRCode com ou sem imagem feito com ttkbootstrap
 * ``python main.py``
 * Selecione o link/texto que deseja colocar no QRCode
 * Clique em Confirmar e o QRCode irá abrir
+
+* Ou use o .exe
